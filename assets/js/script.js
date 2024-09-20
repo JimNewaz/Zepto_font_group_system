@@ -1,7 +1,10 @@
 function uploadFont() {
     var formData = new FormData(document.getElementById('uploadForm'));
-
-    fetch('/functions/FontsController.php', {
+    
+    var fontFile = formData.get('font'); 
+    // console.log(fontFile);
+    
+    fetch('./functions/FontsController.php', {
         method: 'POST',
         body: formData
     })
@@ -12,6 +15,7 @@ function uploadFont() {
         return response.text();
     })
     .then(data => {
+        console.log(data);
         document.getElementById('fontList').innerHTML = data;
     })
     .catch(error => {
@@ -22,7 +26,7 @@ function uploadFont() {
 
 // Delete font via AJAX
 function deleteFont(fontId) {
-    fetch('/functions/FontsController.php', {
+    fetch('./functions/FontsController.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
