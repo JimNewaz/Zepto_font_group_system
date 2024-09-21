@@ -1,10 +1,4 @@
 	$(document).ready(function () {
-	    // $('#fontTable').DataTable({
-	    //     "order": [
-	    //         [0, "desc"]
-	    //     ]
-	    // });
-
 	    displayFonts();
 	});
 
@@ -63,10 +57,10 @@
 	            headers: {
 	                'Content-Type': 'application/x-www-form-urlencoded'
 	            },
-	            body: `deleteFont=true&fontId=${fontId}`
+	            body: `deleteFont=true&deleteFontId=${fontId}`
 	        })
 	        .then(response => response.text())
-	        .then(data => {
-	            document.getElementById('fontList').innerHTML = data;
+	        .then(data => {                
+	            document.getElementById('fontList').innerHTML = data;                
 	        });
 	}
