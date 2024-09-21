@@ -1,3 +1,6 @@
+	
+new DataTable('#fontTable');
+
 function uploadFont() {
     var formData = new FormData(document.getElementById('uploadForm'));
     

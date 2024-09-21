@@ -1,6 +1,7 @@
 body {
-    width: 100vw;
-    /* height: 100vh; */
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
 }
 
 .et_pb_contact_form_label {
@@ -12,27 +13,32 @@ body {
     padding-bottom: 5px;
 }
 
+.module_header{
+    margin-top: 5%;
+}
+
 input[id="fontFile"] {
     display: none;
 }
 
 label[for="fontFile"] {
     background: #fff;
-    height: 145px;
+    height: 245px;
     background-image: url('https://www.svgrepo.com/show/9488/cloud-upload-signal.svg');
     background-repeat: no-repeat;
     background-position: top 18px center;
-    position: absolute;
+    position: relative;
     background-size: 7%;
     color: transparent;
-    margin: auto;
-    width: 450px;
-    top: 50%;
+    margin-top: 50px;
+    width: 100%;
+    /* top: 45%; */
     left: 0;
     right: 0;
-    transform: translateY(-50%);
-    border: 1px solid #a2a1a7;
+    /* transform: translateY(-50%); */
+    border: 1px dotted #457ef7;
     box-sizing: border-box;
+    margin-bottom: 50px;
 }
 
 label[for="fontFile"]:before {
@@ -59,7 +65,7 @@ label[for="fontFile"]:after {
     height: 27px;
     line-height: 27px;
     position: absolute;
-    bottom: 19px;
+    bottom: 70px;
     font-size: 14px;
     color: rgb(104, 104, 104);
     font-weight: 500;
