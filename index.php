@@ -23,33 +23,27 @@
                     <label for="fontFile" class="et_pb_contact_form_label">Enter</label>
                     <input type="file" id="fontFile" name="font" accept=".ttf" class="file-upload"
                         onchange="uploadFont()">
-                </form>
-
-                <ul id="fontList" class="list-group"></ul>
+                </form>                
             </div>
             <div class="col-md-2"></div>
         </div>
     </div>
 
-    <div class="container">
+    <div class="container mb-5">
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                <table id="fontTable" class="table table-striped " style="width:100%">
+                <h4>Our Fonts</h4>
+                <p>Browse a list of Zepto fonts to build your font group</p>
+                <table id="fontTable" class="table table-striped" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Font Name</th>
-                            <th>Preview</th>
-                            <th>Action</th>                            
+                            <th>FONT NAME</th>
+                            <th>PREVIEW</th>
+                            <th>ACTION</th>                            
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>                            
-                        </tr>                        
-                    </tbody>                    
+                    <tbody id="fontList"></tbody>                    
                 </table>
             </div>
             <div class="col-md-2"></div>

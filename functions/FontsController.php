@@ -11,6 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (isset($_POST['deleteFontId'])) {        
         echo $fontController->deleteFont($_POST['deleteFontId']);
     }
+}elseif (isset($_GET['action']) && $_GET['action'] === 'displayFonts') {
+    echo $fontController->displayFonts();
 }
 
 class FontsController{
@@ -60,19 +62,27 @@ class FontsController{
     }
 
     public function displayFonts(){
-        $sql = "SELECT * FROM fonts WHERE status = 1";
+        $sql = "SELECT * FROM fonts WHERE status = 1 ORDER BY id DESC";
 
         $result = $this->db->query($sql);
         $fonts = $result->fetchAll(PDO::FETCH_ASSOC);
 
         $html = '';
 
-        foreach($fonts as $font){
-            $html .= '<li class="list-group-item d-flex justify-content-between align-items-center">';
-            $html .= '<span style="font-family:' . $font['font_name'] . ';" class="font-preview">Example Style (' . $font['font_name'] . ')</span>';
-            $html .= '<span>Path: ' . $font['font_path'] . '</span>';
-            $html .= '<button class="btn btn-danger btn-sm delete-font" data-id="' . $font['id'] . '">Delete</button>';
-            $html .= '</li>';
+        if (count($fonts) > 0) {
+            foreach ($fonts as $font) {
+
+                $font_name_parts = explode('.', $font['font_name']);
+                $font_name = $font_name_parts[0];
+
+                $html .= '<tr>';
+                $html .= '<td>' . htmlspecialchars($font_name) . '</td>';
+                $html .= '<td><span style="font-family:' . htmlspecialchars($font_name) . ';">Example Style </span></td>';
+                $html .= '<td><button class="btn btn-danger btn-sm delete-font" onclick="deleteFont(' . $font['id'] . ')">Delete</button></td>';
+                $html .= '</tr>';
+            }
+        } else {
+            $html .= '<tr><td colspan="3">No fonts available.</td></tr>';
         }
 
         return $html;
