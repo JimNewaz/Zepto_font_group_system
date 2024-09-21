@@ -53,7 +53,7 @@ class FontsController{
     }
 
     private function addFontToDB($fontName, $fontPath){
-        echo $fontName . ' ' . $fontPath;
+        // echo $fontName . ' ' . $fontPath;
         $sql = "INSERT INTO fonts (font_name, font_path, status) VALUES (:font_name, :font_path, 1)";
         $this->db->query($sql, [
             'font_name' => $fontName, 

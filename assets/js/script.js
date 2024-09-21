@@ -40,8 +40,7 @@
 	            }
 	            return response.text();
 	        })
-	        .then(data => {
-	            console.log(data);
+	        .then(data => {	            
 	            document.getElementById('fontList').innerHTML = data;
 	        })
 	        .catch(error => {
