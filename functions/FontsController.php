@@ -1,6 +1,6 @@
 <?php 
 require_once '../database/Database.php';
-require_once 'FontsController.php';
+// require_once 'FontsController.php';
 
 $db = new Database();
 $fontController = new FontsController($db);
@@ -13,6 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }elseif (isset($_GET['action']) && $_GET['action'] === 'displayFonts') {
     echo $fontController->displayFonts();
+}elseif (isset($_GET['action']) && $_GET['action'] === 'displayAllFonts') {
+    echo $fontController->displayAllFonts();
 }
 
 class FontsController{
@@ -95,6 +97,24 @@ class FontsController{
         ]);
 
         return $this->displayFonts();
+    }
+
+    public function displayAllFonts()
+    {
+        $sql = "SELECT * FROM fonts WHERE status = 1 ORDER BY id DESC";
+        $result = $this->db->query($sql);
+        $fonts = $result->fetchAll(PDO::FETCH_ASSOC);
+
+        $html = '';
+        if (count($fonts) > 0) {
+            foreach ($fonts as $font) {
+                $html .= '<option value="' . $font['id'] . '">' . $font['font_name'] . '</option>';
+            }
+        } else {
+            $html .= '<option value="">No fonts available.</option>';
+        }
+
+        return $html;
     }
 }
 
