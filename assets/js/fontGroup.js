@@ -51,7 +51,39 @@ function addFontRow() {
     fetchAndPopulateFonts(); 
 }
 
+// Update
+// function saveChanges(groupId) {
+//     const groupName = document.getElementById('editgroupName').value;
+//     const selectedFonts = Array.from(document.getElementById('groupFonts').selectedOptions)
+//         .map(option => option.value);
 
+//     const data = {
+//         group_id: groupId,
+//         group_name: groupName,
+//         fonts: selectedFonts
+//     };
+
+//     fetch('./functions/FontsController.php?action=updateFontGroup', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(data)
+//     })
+//     .then(response => response.json())
+//     .then(result => {
+//         if (result.success) {
+//             alert('Font group updated successfully!');
+//             displayAllFontGroups(); 
+//         } else {
+//             alert('Failed to update font group.');
+//         }
+//     })
+//     .catch(error => console.error('Error updating font group:', error));
+// }
+
+
+// Delete
 function deleteFontGroup(groupId) {
     fetch('./functions/FontsController.php', {
             method: 'POST',
@@ -68,27 +100,52 @@ function deleteFontGroup(groupId) {
 
 //  Display All Font Groups start
 
-
-function displayAllFontGroups()
-{
+function displayAllFontGroups() {
     fetch('./functions/FontsController.php?action=displayAllFontGroups')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(data => {	
-            document.getElementById('fontGroupList').innerHTML = data;
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('fontGroupList').innerHTML = html;
             $('#fontGroupTable').DataTable().destroy();
-            $('#fontGroupTable').DataTable({	
-                "order": [
-                    [0, "desc"]
-                ]
+            $('#fontGroupTable').DataTable({
+                "order": [[0, "desc"]]
+            });
+
+            document.querySelectorAll('.edit-font-group').forEach(button => {
+                button.addEventListener('click', function () {
+                    const groupId = this.getAttribute('data-group-id');
+                    const groupName = this.getAttribute('data-group-name');                    
+                    console.log(groupId, groupName);
+
+                    // Set the group name in the modal
+                    document.getElementById('editgroupName').value = groupName;
+                    document.getElementById('editGroupId').value = groupId;                    
+
+                    fetch('./functions/FontsController.php?action=getAllFonts')
+                        .then(response => response.json())
+                        .then(fonts => {
+                            const fontSelect = document.getElementById('groupFonts');
+                            fontSelect.innerHTML = ''; 
+                            fonts.forEach(font => {
+                                const option = document.createElement('option');
+                                option.value = font.id;
+                                option.textContent = font.font_name;
+                                
+                                if (this.getAttribute('data-font-names').includes(font.font_name)) {
+                                    option.selected = true;
+                                }
+
+                                fontSelect.appendChild(option);
+                            });
+                        });
+
+                    // Show modal
+                    const editModal = new bootstrap.Modal(document.getElementById('editFontGroupModal'));
+                    editModal.show();
+                });
             });
         })
+        .catch(error => console.error('Error fetching font groups:', error));
 }
-
 
 // Display All Font Groups End 
 
@@ -139,6 +196,33 @@ $(document).ready(function () {
         });
     });
     
+
+    document.getElementById('saveChangesBtn').addEventListener('click', function () {
+        const groupId = document.getElementById('editGroupId').value;
+        const groupName = document.getElementById('editgroupName').value;
+
+        const selectedFonts = Array.from(document.getElementById('groupFonts').selectedOptions)
+        .map(option => option.value);
+    
+        const formData = new FormData();
+        formData.append('groupId', groupId);
+        formData.append('groupName', groupName);
+        formData.append('selectedFonts', JSON.stringify(selectedFonts));
+        
+        // console.log(formData);
+        fetch('./functions/FontsController.php?action=updateFontGroup', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            const editModal = bootstrap.Modal.getInstance(document.getElementById('editFontGroupModal'));
+            editModal.hide();
+            displayAllFontGroups();
+        })
+        .catch(error => console.error('Error saving font group:', error));
+    });
 
 
 

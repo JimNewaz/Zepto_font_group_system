@@ -14,6 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo $fontController->createGroup();
     } elseif(isset($_POST['deleteFontGroup'])){
         echo $fontController->deleteFontGroup($_POST['deleteFontGroup']);
+    } elseif (isset($_GET['action']) && $_GET['action'] === 'updateFontGroup') {        
+        echo $fontController->updateFontGroup($_POST['groupId'], $_POST['groupName'], $_POST['selectedFonts']);
     }
 }elseif (isset($_GET['action']) && $_GET['action'] === 'displayFonts') {
     echo $fontController->displayFonts();
@@ -21,6 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo $fontController->displayAllFonts();
 }elseif(isset($_GET['action']) && $_GET['action'] === 'displayAllFontGroups') {
     echo $fontController->displayAllFontGroups();
+}elseif(isset($_GET['action']) && $_GET['action'] === 'getAllFonts') {
+    echo json_encode($fontController->getAllFonts());
 }
 
 class FontsController{
@@ -175,18 +179,24 @@ class FontsController{
         }
     }
 
+    public function getAllFonts()
+    {
+        $sql = "SELECT id, font_name FROM fonts WHERE status = 1";
+        $result = $this->db->query($sql);
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
     public function displayAllFontGroups()
     {
         $sql = "SELECT font_groups.id AS group_id, font_groups.name AS group_name, font_groups.total_fonts AS count, 
-            GROUP_CONCAT(fonts.font_name SEPARATOR ', ') AS font_names 
-            FROM font_groups 
-            JOIN font_group_fonts ON font_groups.id = font_group_fonts.group_id
-            JOIN fonts ON fonts.id = font_group_fonts.font_id
-            WHERE font_groups.status = 1 
-            GROUP BY font_groups.id 
-            ORDER BY font_groups.id DESC";
-
+                GROUP_CONCAT(fonts.font_name SEPARATOR ', ') AS font_names 
+                FROM font_groups 
+                JOIN font_group_fonts ON font_groups.id = font_group_fonts.group_id
+                JOIN fonts ON fonts.id = font_group_fonts.font_id
+                WHERE font_groups.status = 1 
+                GROUP BY font_groups.id 
+                ORDER BY font_groups.id DESC";
 
         $result = $this->db->query($sql);
         $fonts = $result->fetchAll(PDO::FETCH_ASSOC);
@@ -194,15 +204,18 @@ class FontsController{
         $html = '';
 
         if (count($fonts) > 0) {
-            foreach ($fonts as $font) {                     
+            foreach ($fonts as $font) {
                 $html .= '<tr>';
                 $html .= '<td>' . htmlspecialchars($font['group_name']) . '</td>';
-                $html .= '<td>' . htmlspecialchars($font['font_names']) . '</td>'; 
+                $html .= '<td>' . htmlspecialchars($font['font_names']) . '</td>';
                 $html .= '<td>' . $font['count'] . '</td>';
                 $html .= '<td>
-                            <button class="btn btn-info btn-sm edit-font-group" onclick="editFontGroup(' . $font['group_id'] . ')">Edit</button>
+                            <button class="btn btn-info btn-sm edit-font-group" 
+                                data-group-id="' . $font['group_id'] . '" 
+                                data-group-name="' . htmlspecialchars($font['group_name']) . '" 
+                                data-font-names="' . htmlspecialchars($font['font_names']) . '">Edit</button>
                             <button class="btn btn-danger btn-sm delete-font-group" onclick="deleteFontGroup(' . $font['group_id'] . ')">Delete</button>
-                        </td>';
+                            </td>';
                 $html .= '</tr>';
             }
         } else {
@@ -222,6 +235,34 @@ class FontsController{
 
         return $this->displayAllFontGroups();
     }
+
+    public function updateFontGroup($groupId, $groupName, $selectedFonts)
+    {
+        // Update the group name
+        $sql = "UPDATE font_groups SET name = :groupName WHERE id = :groupId";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':groupName', $groupName);
+        $stmt->bindParam(':groupId', $groupId);
+        $stmt->execute();
+
+        // Clear current fonts in the group
+        $sql = "DELETE FROM font_group_fonts WHERE group_id = :groupId";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':groupId', $groupId);
+        $stmt->execute();
+
+        // Add the selected fonts back into the group
+        foreach ($selectedFonts as $fontId) {
+            $sql = "INSERT INTO font_group_fonts (group_id, font_id) VALUES (:groupId, :fontId)";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':groupId', $groupId);
+            $stmt->bindParam(':fontId', $fontId);
+            $stmt->execute();
+        }
+
+        return "Font group updated successfully";
+    }
+
 
     
 }

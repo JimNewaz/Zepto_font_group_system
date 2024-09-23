@@ -57,17 +57,17 @@
                 <h3>Create Font Group</h3>
                 <p>You have to select at least two fonts</p>
 
-                <form id="fontGroupForm">                    
+                <form id="fontGroupForm">
                     <div class="form-group mb-2">
-                        <input type="text" class="form-control" id="groupName" name="groupName" placeholder="Enter a Font Group Title"
-                            required>
+                        <input type="text" class="form-control" id="groupName" name="groupName"
+                            placeholder="Enter a Font Group Title" required>
                     </div>
 
                     <!-- Font Groups -->
                     <div id="fontGroupContainer"></div>
-                    
-                    <button type="button" class="btn btn-secondary" id="addRowBtn">+ Add Row</button>                    
-                    <button type="submit" id="subBtn" class="btn btn-primary" >Create</button>
+
+                    <button type="button" class="btn btn-secondary" id="addRowBtn">+ Add Row</button>
+                    <button type="submit" id="subBtn" class="btn btn-primary">Create</button>
                 </form>
             </div>
         </div>
@@ -78,7 +78,7 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-            <h4>Our Font Groups</h4>
+                <h4>Our Font Groups</h4>
                 <p>List of all available font groups</p>
                 <table id="fontGroupTable" class="table table-striped" style="width:100%">
                     <thead>
@@ -91,11 +91,44 @@
                     </thead>
                     <tbody id="fontGroupList"></tbody>
                 </table>
+
             </div>
             <div class="col-md-2"></div>
         </div>
-    </div>
 
+        <!-- Single Modal for Editing Font Groups -->
+        <div class="modal fade" id="editFontGroupModal" tabindex="-1" role="dialog"
+            aria-labelledby="editFontGroupModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editFontGroupModalLabel">Edit Font Group</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editGroupForm">
+                            <input type="hidden" id="editGroupId" value="">
+                            <div class="form-group">
+                                <label for="groupName">Group Name</label>
+                                <input type="text" class="form-control" id="editgroupName" value="">
+                            </div>
+                            <div class="form-group">
+                                <label for="groupFonts">Select Fonts</label>
+                                <select id="groupFonts" class="form-control" multiple="multiple">
+                                    
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="saveChangesBtn">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
     <?php
         require_once 'includes/scripts.php';
