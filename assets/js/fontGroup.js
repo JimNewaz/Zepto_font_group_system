@@ -68,14 +68,36 @@ $(document).ready(function () {
     });
     
     $('#fontGroupForm').submit(function (event) {
+        event.preventDefault(); 
+        const groupName = $('#groupName').val().trim(); 
         const fontSelects = $('.fontSelect').map(function () {
-            return $(this).val();
+            return $(this).val(); 
         }).get();
-        if (fontSelects.filter(Boolean).length < 2) {
-            event.preventDefault();
-            alert('Please select at least two fonts to create a group.');
+    
+        // Validation
+        if (groupName === "" || fontSelects.filter(Boolean).length < 2) {
+            alert('Please enter a group name and select at least two fonts to create a group.');
+            return; 
         }
+    
+        // Submit
+        $.ajax({
+            type: "POST",
+            url: "./functions/FontsController.php",
+            data: {
+                action: "createGroup",
+                groupName: groupName,
+                fonts: fontSelects
+            },
+            success: function(response) {
+                console.log("Group created successfully:", response);               
+            },
+            error: function(xhr) {
+                console.error("An error occurred:", xhr.responseText);                            
+            }
+        });
     });
+    
 
     disableSubBtn();
     fetchAndPopulateFonts();

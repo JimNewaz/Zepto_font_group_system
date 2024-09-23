@@ -28,6 +28,10 @@
             return $this->con;
         }
 
+        public function lastInsertId() {
+            return $this->con->lastInsertId();
+        }
+
         // Dynamic optional parameter query
         public function query($sql, $params = []) {
             $stmt = $this->con->prepare($sql);

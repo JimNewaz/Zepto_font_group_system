@@ -10,6 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo $fontController->uploadFont($_FILES['font']);
     } elseif (isset($_POST['deleteFontId'])) {        
         echo $fontController->deleteFont($_POST['deleteFontId']);
+    } elseif (isset($_POST['action']) && $_POST['action'] === 'createGroup') {
+        echo $fontController->createGroup();
     }
 }elseif (isset($_GET['action']) && $_GET['action'] === 'displayFonts') {
     echo $fontController->displayFonts();
@@ -116,6 +118,43 @@ class FontsController{
 
         return $html;
     }
+
+    public function createGroup() {
+        $groupName = $_POST['groupName'] ?? '';
+        $fonts = $_POST['fonts'] ?? [];
+    
+        $total_fonts = count($fonts);
+    
+        // Validate data
+        if (empty($groupName) || $total_fonts < 2) {
+            exit('Invalid input: Ensure you have a valid group name and at least two fonts selected.');
+        }
+    
+        try {    
+            // Insert 
+            $sql = "INSERT INTO font_groups (name, total_fonts, status) VALUES (:group_name, :total_fonts, 1)";
+            $this->db->query($sql, [
+                'group_name' => $groupName,
+                'total_fonts' => $total_fonts,
+            ]);
+    
+            // last inserted group ID
+            $groupId = $this->db->lastInsertId();
+    
+            // Insert into font_group_map
+            foreach ($fonts as $fontId) {
+                $sql = "INSERT INTO font_group_fonts (group_id, font_id) VALUES (:group_id, :font_id)";
+                $this->db->query($sql, [
+                    'group_id' => $groupId,
+                    'font_id' => $fontId
+                ]);
+            }
+            
+        } catch (PDOException $e) {
+            exit('Error: ' . $e->getMessage());
+        }
+    }
+    
 }
 
 ?>
