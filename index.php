@@ -74,6 +74,27 @@
         <div class="col-md-2"></div>
     </div>
 
+    <div class="container mt-4 mb-5">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+            <h4>Our Font Groups</h4>
+                <p>List of all available font groups</p>
+                <table id="fontGroupTable" class="table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>GROUP NAME</th>
+                            <th>FONTS</th>
+                            <th>COUNT</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fontGroupList"></tbody>
+                </table>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
 
 
     <?php

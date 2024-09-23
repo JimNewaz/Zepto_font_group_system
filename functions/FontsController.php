@@ -17,6 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo $fontController->displayFonts();
 }elseif (isset($_GET['action']) && $_GET['action'] === 'displayAllFonts') {
     echo $fontController->displayAllFonts();
+}elseif(isset($_GET['action']) && $_GET['action'] === 'displayAllFontGroups') {
+    echo $fontController->displayAllFontGroups();
 }
 
 class FontsController{
@@ -29,6 +31,10 @@ class FontsController{
         $this->db = $db;
         $this->fontDir = dirname(__DIR__) . '/fonts/';
     }
+
+    /*
+        FONTS CRUD Functions Started
+    */
 
     public function uploadFont($fontFile){
 
@@ -57,10 +63,13 @@ class FontsController{
     }
 
     private function addFontToDB($fontName, $fontPath){
-        // echo $fontName . ' ' . $fontPath;
+
+        $font_name_parts = explode('.', $fontName);
+        $font_name = $font_name_parts[0];
+
         $sql = "INSERT INTO fonts (font_name, font_path, status) VALUES (:font_name, :font_path, 1)";
         $this->db->query($sql, [
-            'font_name' => $fontName, 
+            'font_name' => $font_name, 
             'font_path' => $fontPath
         ]);
     }
@@ -100,6 +109,15 @@ class FontsController{
 
         return $this->displayFonts();
     }
+
+    /*
+        FONTS CRUD FUNCTIONS STARTED
+    */
+
+
+    /*     
+        FONT GROUPS RELATED FUNCTIONS STARTED
+    */
 
     public function displayAllFonts()
     {
@@ -154,6 +172,43 @@ class FontsController{
             exit('Error: ' . $e->getMessage());
         }
     }
+
+
+    public function displayAllFontGroups()
+    {
+        $sql = "SELECT font_groups.id AS group_id, font_groups.name AS group_name, font_groups.total_fonts AS count, 
+            GROUP_CONCAT(fonts.font_name SEPARATOR ', ') AS font_names 
+            FROM font_groups 
+            JOIN font_group_fonts ON font_groups.id = font_group_fonts.group_id
+            JOIN fonts ON fonts.id = font_group_fonts.font_id
+            WHERE font_groups.status = 1 
+            GROUP BY font_groups.id 
+            ORDER BY font_groups.id DESC";
+
+
+        $result = $this->db->query($sql);
+        $fonts = $result->fetchAll(PDO::FETCH_ASSOC);
+
+        $html = '';
+
+
+
+        if (count($fonts) > 0) {
+            foreach ($fonts as $font) {                     
+                $html .= '<tr>';
+                $html .= '<td>' . htmlspecialchars($font['group_name']) . '</td>';
+                $html .= '<td>' . htmlspecialchars($font['font_names']) . '</td>'; 
+                $html .= '<td>' . $font['count'] . '</td>';
+                $html .= '<td><button class="btn btn-danger btn-sm delete-font" onclick="deleteFont(' . $font['group_id'] . ')">Delete</button></td>';
+                $html .= '</tr>';
+            }
+        } else {
+            $html .= '<tr><td colspan="3">No fonts available.</td></tr>';
+        }
+
+        return $html;
+    }
+
     
 }
 
