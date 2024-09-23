@@ -193,8 +193,6 @@ class FontsController{
 
         $html = '';
 
-
-
         if (count($fonts) > 0) {
             foreach ($fonts as $font) {                     
                 $html .= '<tr>';
@@ -208,7 +206,7 @@ class FontsController{
                 $html .= '</tr>';
             }
         } else {
-            $html .= '<tr><td colspan="3">No fonts available.</td></tr>';
+            $html .= '<tr><td colspan="4">No font groups available.</td></tr>';
         }
 
         return $html;

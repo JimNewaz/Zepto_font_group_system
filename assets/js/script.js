@@ -1,6 +1,5 @@
 	$(document).ready(function () {
 		displayFonts();
-		displayAllFontGroups();
 	});
 
 	function displayFonts() {
@@ -25,31 +24,7 @@
 			});
 	}
 
-	//  Display All Font Groups start
-
-
-	function displayAllFontGroups()
-	{
-		fetch('./functions/FontsController.php?action=displayAllFontGroups')
-			.then(response => {
-				if (!response.ok) {
-					throw new Error('Network response was not ok');
-				}
-				return response.text();
-			})
-			.then(data => {	
-				document.getElementById('fontGroupList').innerHTML = data;
-				$('#fontGroupTable').DataTable().destroy();
-				$('#fontGroupTable').DataTable({	
-					"order": [
-						[0, "desc"]
-					]
-				});
-			})
-	}
-
-
-	// Display All Font Groups End 
+	
 
 
 	function uploadFont() {

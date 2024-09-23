@@ -66,6 +66,32 @@ function deleteFontGroup(groupId) {
         });
 }
 
+//  Display All Font Groups start
+
+
+function displayAllFontGroups()
+{
+    fetch('./functions/FontsController.php?action=displayAllFontGroups')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {	
+            document.getElementById('fontGroupList').innerHTML = data;
+            $('#fontGroupTable').DataTable().destroy();
+            $('#fontGroupTable').DataTable({	
+                "order": [
+                    [0, "desc"]
+                ]
+            });
+        })
+}
+
+
+// Display All Font Groups End 
+
 
 $(document).ready(function () {   
     addFontRow();
@@ -104,7 +130,8 @@ $(document).ready(function () {
                 fonts: fontSelects
             },
             success: function(response) {
-                console.log("Group created successfully:", response);               
+                console.log("Group created successfully:", response);         
+                displayAllFontGroups();      
             },
             error: function(xhr) {
                 console.error("An error occurred:", xhr.responseText);                            
@@ -117,6 +144,7 @@ $(document).ready(function () {
 
     disableSubBtn();
     fetchAndPopulateFonts();
+    displayAllFontGroups();      
 });
 
 
