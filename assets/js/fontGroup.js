@@ -52,6 +52,20 @@ function addFontRow() {
 }
 
 
+function deleteFontGroup(groupId) {
+    fetch('./functions/FontsController.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `deleteFontGroup=true&deleteFontGroup=${groupId}`
+        })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('fontGroupList').innerHTML = data;
+        });
+}
+
 
 $(document).ready(function () {   
     addFontRow();
@@ -98,6 +112,8 @@ $(document).ready(function () {
         });
     });
     
+
+
 
     disableSubBtn();
     fetchAndPopulateFonts();

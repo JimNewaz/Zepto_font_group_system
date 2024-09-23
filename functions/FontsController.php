@@ -12,6 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo $fontController->deleteFont($_POST['deleteFontId']);
     } elseif (isset($_POST['action']) && $_POST['action'] === 'createGroup') {
         echo $fontController->createGroup();
+    } elseif(isset($_POST['deleteFontGroup'])){
+        echo $fontController->deleteFontGroup($_POST['deleteFontGroup']);
     }
 }elseif (isset($_GET['action']) && $_GET['action'] === 'displayFonts') {
     echo $fontController->displayFonts();
@@ -199,7 +201,10 @@ class FontsController{
                 $html .= '<td>' . htmlspecialchars($font['group_name']) . '</td>';
                 $html .= '<td>' . htmlspecialchars($font['font_names']) . '</td>'; 
                 $html .= '<td>' . $font['count'] . '</td>';
-                $html .= '<td><button class="btn btn-danger btn-sm delete-font" onclick="deleteFont(' . $font['group_id'] . ')">Delete</button></td>';
+                $html .= '<td>
+                            <button class="btn btn-info btn-sm edit-font-group" onclick="editFontGroup(' . $font['group_id'] . ')">Edit</button>
+                            <button class="btn btn-danger btn-sm delete-font-group" onclick="deleteFontGroup(' . $font['group_id'] . ')">Delete</button>
+                        </td>';
                 $html .= '</tr>';
             }
         } else {
@@ -207,6 +212,17 @@ class FontsController{
         }
 
         return $html;
+    }
+
+
+    public function deleteFontGroup($groupId)
+    {
+        $sql = "UPDATE font_groups SET status = 0 WHERE id = :id";
+        $this->db->query($sql, [
+            'id' => $groupId
+        ]);
+
+        return $this->displayAllFontGroups();
     }
 
     
