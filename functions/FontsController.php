@@ -173,6 +173,8 @@ class FontsController{
                     'font_id' => $fontId
                 ]);
             }
+
+            echo json_encode(['success' => true, 'groupId' => $groupId, 'groupName' => $groupName]);
             
         } catch (PDOException $e) {
             exit('Error: ' . $e->getMessage());
@@ -221,7 +223,7 @@ class FontsController{
         } else {
             $html .= '<tr><td colspan="4">No font groups available.</td></tr>';
         }
-
+        // echo $html;
         return $html;
     }
 
@@ -271,7 +273,7 @@ class FontsController{
                 $stmt->bindParam(':groupId', $groupId);
                 $stmt->execute();
     
-                var_dump($selectedFonts);
+                // var_dump($selectedFonts);
                 // Insert into font_group_map
                 foreach ($selectedFonts as $fontId) {
                     $sql = "INSERT INTO font_group_fonts (group_id, font_id) VALUES (:groupId, :fontId)";
@@ -285,7 +287,8 @@ class FontsController{
                 }
             }
     
-            return "Font group updated successfully";
+            // return "Font group updated successfully";
+            return $this->displayAllFontGroups();
 
         } catch (Exception $e) {
             return "Error: " . $e->getMessage();

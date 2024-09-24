@@ -71,12 +71,15 @@ function deleteFontGroup(groupId) {
 function displayAllFontGroups() {
     fetch('./functions/FontsController.php?action=displayAllFontGroups')
         .then(response => response.text())
-        .then(html => {
-            document.getElementById('fontGroupList').innerHTML = html;
+        .then(data => {
+            document.getElementById('fontGroupList').innerHTML = data;
+
             $('#fontGroupTable').DataTable().destroy();
             $('#fontGroupTable').DataTable({
                 "order": [[0, "desc"]]
             });
+            
+            // $('#fontGroupTable').DataTable().ajax.reload();
 
             document.querySelectorAll('.edit-font-group').forEach(button => {
                 button.addEventListener('click', function () {
@@ -111,6 +114,7 @@ function displayAllFontGroups() {
                     editModal.show();
                 });
             });
+
         })
         .catch(error => console.error('Error fetching font groups:', error));
 }
@@ -155,8 +159,16 @@ $(document).ready(function () {
                 fonts: fontSelects
             },
             success: function(response) {
-                console.log("Group created successfully:", response);         
-                displayAllFontGroups();      
+                console.log("Group created successfully:", response);      
+                const data = JSON.parse(response);
+
+                if(data.success) {
+                    displayAllFontGroups();
+                } else {
+                    console.error("Error in backend response:", response.error);
+                }
+
+                // displayAllFontGroups();      
             },
             error: function(xhr) {
                 console.error("An error occurred:", xhr.responseText);                            
