@@ -100,10 +100,18 @@ class FontsController{
                     $google_fonts[] = str_replace(' ', '+', $font_name);
                     continue; // Skip inline font styling for Google Fonts
                 }
+                
+                $font_file_path = './fonts/' . htmlspecialchars($font['font_name']);
 
                 $html .= '<tr>';
                 $html .= '<td>' . htmlspecialchars($font_name) . '</td>';
-                $html .= '<td><span style="font-family:' . htmlspecialchars($font_name) . ';">Example Style </span></td>';
+                $html .= '<style>
+                        @font-face {
+                            font-family: "' . htmlspecialchars($font_name) . '";
+                            src: url("' . $font_file_path.'.ttf") format("truetype");
+                        }
+                        </style>';
+                $html .= '<td><span style="font-family:\'' . htmlspecialchars($font_name) . '\';">Example Style</span></td>';
                 $html .= '<td><button class="btn btn-danger btn-sm delete-font" onclick="deleteFont(' . $font['id'] . ')">Delete</button></td>';
                 $html .= '</tr>';
             }
