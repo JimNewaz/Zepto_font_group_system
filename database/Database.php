@@ -4,7 +4,7 @@
         private $host = 'localhost';    
         private $dbName = 'font-group';
         private $username = 'root';
-        private $password = '';
+        private $password = 'password';
 
         private $con; 
 
@@ -30,6 +30,14 @@
 
         public function lastInsertId() {
             return $this->con->lastInsertId();
+        }
+
+        public function prepare($sql){
+            return $this->con->prepare($sql);
+        }
+
+        public function errorInfo(){
+            return $this->con->errorInfo();
         }
 
         // Dynamic optional parameter query

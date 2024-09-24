@@ -1,5 +1,5 @@
 <?php
-    require_once 'includes/header.php';
+require_once 'includes/header.php';
 ?>
 
 <body>
@@ -114,10 +114,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="groupFonts">Select Fonts</label>
-                                <select id="groupFonts" class="form-control" multiple="multiple">
-                                    
+                                <select id="groupFonts" class="form-control" data-placeholder="Update Fonts" multiple>
+
                                 </select>
-                            </div>
+                            </div>                            
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -131,7 +131,7 @@
     </div>
 
     <?php
-        require_once 'includes/scripts.php';
+    require_once 'includes/scripts.php';
     ?>
 
     <script type="text/javascript" src="assets/js/fontUploader.js"></script>

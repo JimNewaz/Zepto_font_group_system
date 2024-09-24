@@ -9,5 +9,17 @@
 <script src="https://cdn.datatables.net/2.1.7/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.1.7/js/dataTables.bootstrap5.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
+<script>
+    $(document).ready(function() {
+        $('#groupFonts').select2({          
+          dropdownParent: $("#editFontGroupModal"),
+          placeholder: "Choose anything",
+          width: '100%',
+          placeholder: '',
+          closeOnSelect: false,
+        });
+    });
+</script>
 

@@ -238,30 +238,56 @@ class FontsController{
 
     public function updateFontGroup($groupId, $groupName, $selectedFonts)
     {
-        // Update the group name
-        $sql = "UPDATE font_groups SET name = :groupName WHERE id = :groupId";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':groupName', $groupName);
-        $stmt->bindParam(':groupId', $groupId);
-        $stmt->execute();
+        try {
 
-        // Clear current fonts in the group
-        $sql = "DELETE FROM font_group_fonts WHERE group_id = :groupId";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':groupId', $groupId);
-        $stmt->execute();
-
-        // Add the selected fonts back into the group
-        foreach ($selectedFonts as $fontId) {
-            $sql = "INSERT INTO font_group_fonts (group_id, font_id) VALUES (:groupId, :fontId)";
+            // var_dump($groupId, $groupName, $selectedFonts);
+            
+            // Update the group name
+            $sql = "UPDATE font_groups SET name = :groupName WHERE id = :groupId";
             $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(':groupId', $groupId);
-            $stmt->bindParam(':fontId', $fontId);
-            $stmt->execute();
-        }
 
-        return "Font group updated successfully";
+            if ($stmt === false) {
+                throw new Exception("Error preparing SQL: " . implode(":", $this->db->errorInfo()));
+            }
+
+            $stmt->bindParam(':groupName', $groupName);
+            $stmt->bindParam(':groupId', $groupId);
+            $stmt->execute();
+
+            if (is_string($selectedFonts)) {
+                $selectedFonts = json_decode($selectedFonts, true);
+            }
+
+            if (!empty($selectedFonts)) {                
+                $sql = "DELETE FROM font_group_fonts WHERE group_id = :groupId";
+                $stmt = $this->db->prepare($sql);
+                if (!$stmt) {
+                    throw new Exception("Error preparing SQL: " . implode(":", $this->db->con->errorInfo()));
+                }
+                $stmt->bindParam(':groupId', $groupId);
+                $stmt->execute();
+    
+                var_dump($selectedFonts);
+                // Insert into font_group_map
+                foreach ($selectedFonts as $fontId) {
+                    $sql = "INSERT INTO font_group_fonts (group_id, font_id) VALUES (:groupId, :fontId)";
+                    $stmt = $this->db->prepare($sql);
+                    if (!$stmt) {
+                        throw new Exception("Error preparing SQL: " . implode(":", $this->db->con->errorInfo()));
+                    }
+                    $stmt->bindParam(':groupId', $groupId);
+                    $stmt->bindParam(':fontId', $fontId);
+                    $stmt->execute();
+                }
+            }
+    
+            return "Font group updated successfully";
+
+        } catch (Exception $e) {
+            return "Error: " . $e->getMessage();
+        }
     }
+
 
 
     
