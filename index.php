@@ -10,7 +10,7 @@ require_once 'includes/header.php';
                     <h3 class="module_header">FONT MANAGEMENT SYSTEM</h3>
                     <p>Upload your font and create font groups</p>
                     <hr>
-                    <!-- <small>Developed By: <a href="https://github.com/abhishekpandey01">Sayed Nur E Newaz</a></small> -->
+                    <small>Developed By: <a href="https://www.linkedin.com/in/sayed-nur-e-newaz-77a40a1b8/">Sayed Nur E Newaz</a></small>
                 </div>
             </div>
         </div>
@@ -33,19 +33,25 @@ require_once 'includes/header.php';
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                <h4>Our Fonts</h4>
-                <p>Browse a list of Zepto fonts to build your font group</p>
-                <table id="fontTable" class="table table-striped" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>FONT NAME</th>
-                            <th>PREVIEW</th>
-                            <th>ACTION</th>
-                        </tr>
-                    </thead>
-                    <tbody id="fontList"></tbody>
-                </table>
+                <div class="card custom-box">
+                    <h4>Our Fonts</h4>
+                    <p>Browse a list of Zepto fonts to build your font group</p>
+                </div>
+
+                <div class="card custom-table">
+                    <table id="fontTable" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>FONT NAME</th>
+                                <th>PREVIEW</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fontList"></tbody>
+                    </table>
+                </div>
             </div>
+
             <div class="col-md-2"></div>
         </div>
     </div>
@@ -54,21 +60,25 @@ require_once 'includes/header.php';
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                <h3>Create Font Group</h3>
-                <p>You have to select at least two fonts</p>
+                <div class="card custom-box">
+                    <h4>Create Font Group</h4>
+                    <p>You have to select at least two fonts</p>
+                </div>
 
-                <form id="fontGroupForm">
-                    <div class="form-group mb-2">
-                        <input type="text" class="form-control" id="groupName" name="groupName"
-                            placeholder="Enter a Font Group Title" required>
-                    </div>
+                <div class="card custom-form">
+                    <form id="fontGroupForm">
+                        <div class="form-group mb-3">
+                            <input type="text" class="form-control" id="groupName" name="groupName"
+                                placeholder="Enter a Font Group Title" required>
+                        </div>
 
-                    <!-- Font Groups -->
-                    <div id="fontGroupContainer"></div>
+                        <!-- Font Groups -->
+                        <div id="fontGroupContainer"></div>
 
-                    <button type="button" class="btn btn-secondary" id="addRowBtn">+ Add Row</button>
-                    <button type="submit" id="subBtn" class="btn btn-primary">Create</button>
-                </form>
+                        <button type="button" class="btn btn-success" id="addRowBtn">+ Add Row</button>
+                        <button type="submit" id="subBtn" class="btn btn-primary">Create</button>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="col-md-2"></div>
@@ -78,20 +88,24 @@ require_once 'includes/header.php';
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                <h4>Our Font Groups</h4>
-                <p>List of all available font groups</p>
-                <table id="fontGroupTable" class="table table-striped" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>GROUP NAME</th>
-                            <th>FONTS</th>
-                            <th>COUNT</th>
-                            <th>ACTION</th>
-                        </tr>
-                    </thead>
-                    <tbody id="fontGroupList"></tbody>
-                </table>
+                <div class="card custom-box">
+                    <h4>Our Font Groups</h4>
+                    <p>List of all available font groups</p>
+                </div>
 
+                <div class="card custom-table">
+                    <table id="fontGroupTable" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>GROUP NAME</th>
+                                <th>FONTS</th>
+                                <th>COUNT</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fontGroupList"></tbody>
+                    </table>
+                </div>
             </div>
             <div class="col-md-2"></div>
         </div>
@@ -117,7 +131,7 @@ require_once 'includes/header.php';
                                 <select id="groupFonts" class="form-control" data-placeholder="Update Fonts" multiple>
 
                                 </select>
-                            </div>                            
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">

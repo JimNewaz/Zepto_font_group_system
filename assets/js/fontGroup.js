@@ -81,11 +81,19 @@ function displayAllFontGroups() {
                 $('#fontGroupTable').DataTable().clear().destroy();
             }
 
-            fontGroupList.innerHTML = data;
+            // fontGroupList.innerHTML = data;
+            let trimmedData = data.trim();
+            
+            // Check if the data is empty 
+            if (trimmedData === '<tr><td colspan="4">No font groups available.</td></tr>' ) {                
+                fontGroupList.innerHTML = '<tr><td colspan="4">No font groups available.</td></tr>';
+            } else {
+                fontGroupList.innerHTML = data;
 
-            $('#fontGroupTable').DataTable({
-                "order": [[0, "desc"]],                
-            });
+                $('#fontGroupTable').DataTable({
+                    "order": [[0, "desc"]],                
+                });
+            }            
 
             document.querySelectorAll('.edit-font-group').forEach(button => {
                 button.addEventListener('click', function () {
