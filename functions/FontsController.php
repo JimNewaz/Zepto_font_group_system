@@ -258,6 +258,10 @@ class FontsController{
                 $selectedFonts = json_decode($selectedFonts, true);
             }
 
+            if(count($selectedFonts) < 2) {
+                throw new Exception("Please select at least two fonts.");
+            }
+
             if (!empty($selectedFonts)) {                
                 $sql = "DELETE FROM font_group_fonts WHERE group_id = :groupId";
                 $stmt = $this->db->prepare($sql);
