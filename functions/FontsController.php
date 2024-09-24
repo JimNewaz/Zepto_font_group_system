@@ -87,6 +87,7 @@ class FontsController{
         $fonts = $result->fetchAll(PDO::FETCH_ASSOC);
 
         $html = '';
+        $google_fonts = [];
 
         if (count($fonts) > 0) {
             foreach ($fonts as $font) {
@@ -94,11 +95,22 @@ class FontsController{
                 $font_name_parts = explode('.', $font['font_name']);
                 $font_name = $font_name_parts[0];
 
+                $is_google_font = strpos($font_name, 'Google') !== false;
+                if ($is_google_font) {
+                    $google_fonts[] = str_replace(' ', '+', $font_name);
+                    continue; // Skip inline font styling for Google Fonts
+                }
+
                 $html .= '<tr>';
                 $html .= '<td>' . htmlspecialchars($font_name) . '</td>';
                 $html .= '<td><span style="font-family:' . htmlspecialchars($font_name) . ';">Example Style </span></td>';
                 $html .= '<td><button class="btn btn-danger btn-sm delete-font" onclick="deleteFont(' . $font['id'] . ')">Delete</button></td>';
                 $html .= '</tr>';
+            }
+
+            if (!empty($google_fonts)) {
+                $google_font_url = 'https://fonts.googleapis.com/css2?family=' . implode(':', $google_fonts) . '&display=swap';
+                echo '<link rel="stylesheet" href="' . $google_font_url . '">';
             }
         } else {
             $html .= '<tr><td colspan="3">No fonts available.</td></tr>';

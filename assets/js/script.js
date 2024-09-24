@@ -9,6 +9,15 @@
     closeOnSelect: false,
 	});
 
+
+	function loadGoogleFonts(fontFamilies) {
+    const linkElement = document.createElement('link');
+    linkElement.rel = 'stylesheet';
+    linkElement.href = `https://fonts.googleapis.com/css2?family=${fontFamilies.join('&family=')}&display=swap`;
+
+    document.head.appendChild(linkElement);
+	}
+
 	function displayFonts() {
 		fetch('./functions/FontsController.php?action=displayFonts')
 			.then(response => {
