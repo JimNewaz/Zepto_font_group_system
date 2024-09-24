@@ -1,7 +1,7 @@
 # Font Management System
 
 ## Description
-This is a PHP project designed to run on a local server. The project includes features for [].
+This is a PHP project designed to run on a local server. The project includes features for different kinds of CRUD operations for Fonts.
 
 ## Requirements
 - PHP version 7.4 or higher
