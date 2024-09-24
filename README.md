@@ -3,6 +3,11 @@
 ## Description
 This is a PHP project designed to run on a local server. The project includes features for different kinds of CRUD operations for Fonts.
 
+## Languages, CSS Framework, and Database
+- Backend: PHP
+- Frontend: Bootstrap 5, Vanilla JavaScript, and jQuery
+- Database: MySQL
+
 ## Requirements
 - PHP version 7.4 or higher
 - A web server (e.g., Apache or Nginx) or built-in PHP server
