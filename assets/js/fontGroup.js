@@ -2,7 +2,7 @@ let fontCount = 0;
 
 function disableSubBtn() {
     if (fontCount >= 2) {
-        document.getElementById('subBtn').disabled = false;
+        document.getElementById('subBtn').disabled = false;        
     } else {
         document.getElementById('subBtn').disabled = true;
     }
@@ -63,6 +63,15 @@ function deleteFontGroup(groupId) {
         .then(response => response.text())
         .then(data => {
             document.getElementById('fontGroupList').innerHTML = data;
+
+            const successGroupDiv = document.querySelector('.font-group-success');
+			successGroupDiv.innerHTML = 'Font Group deleted successfully!';
+			successGroupDiv.style.display = 'block'; 
+
+			// Hide message
+			setTimeout(() => {
+				successGroupDiv.style.display = 'none';
+			}, 3000);
         });
 }
 
@@ -178,8 +187,27 @@ $(document).ready(function () {
 
                 if(data.success) {
                     displayAllFontGroups();
+                    // Reset 
+                    $('#fontGroupForm')[0].reset();
+
+                    const successGroupDiv = document.querySelector('.font-group-success');
+                    successGroupDiv.innerHTML = 'Font Group Created successfully!';
+                    successGroupDiv.style.display = 'block'; 
+
+                    // Hide message
+                    setTimeout(() => {
+                        successGroupDiv.style.display = 'none';
+                    }, 3000);
                 } else {
                     console.error("Error in backend response:", response.error);
+                    const errorGroupDiv = document.querySelector('.font-group-error');
+                    errorGroupDiv.innerHTML = 'Something Wrong Happened!';
+                    errorGroupDiv.style.display = 'block'; 
+
+                    // Hide message
+                    setTimeout(() => {
+                        errorGroupDiv.style.display = 'none';
+                    }, 3000);
                 }
 
                 // displayAllFontGroups();      
@@ -214,6 +242,15 @@ $(document).ready(function () {
             const editModal = bootstrap.Modal.getInstance(document.getElementById('editFontGroupModal'));
             editModal.hide();
             displayAllFontGroups();
+
+            const successGroupDiv = document.querySelector('.font-group-success');
+            successGroupDiv.innerHTML = 'Font Group Updated successfully!';
+            successGroupDiv.style.display = 'block'; 
+
+            // Hide message
+            setTimeout(() => {
+                successGroupDiv.style.display = 'none';
+            }, 3000);
         })
         .catch(error => console.error('Error saving font group:', error));
     });

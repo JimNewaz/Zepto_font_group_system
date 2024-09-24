@@ -39,6 +39,8 @@ require_once 'includes/header.php';
                 </div>
 
                 <div class="card custom-table">
+                    <div class="font-success"></div>
+                    <div class="font-error"></div>
                     <table id="fontTable" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
@@ -66,6 +68,9 @@ require_once 'includes/header.php';
                 </div>
 
                 <div class="card custom-form">
+
+                    <div class="form-warning"></div>
+
                     <form id="fontGroupForm">
                         <div class="form-group mb-3">
                             <input type="text" class="form-control" id="groupName" name="groupName"
@@ -94,6 +99,8 @@ require_once 'includes/header.php';
                 </div>
 
                 <div class="card custom-table">
+                <div class="font-group-success"></div>
+                <div class="font-group-error"></div>
                     <table id="fontGroupTable" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>

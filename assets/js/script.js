@@ -3,19 +3,19 @@
 	});
 
 	$( '#multiple-select-field' ).select2( {
-    theme: "bootstrap-5",
-    width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
-    placeholder: $( this ).data( 'placeholder' ),
-    closeOnSelect: false,
+		theme: "bootstrap-5",
+		width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+		placeholder: $( this ).data( 'placeholder' ),
+		closeOnSelect: false,
 	});
 
 
 	function loadGoogleFonts(fontFamilies) {
-    const linkElement = document.createElement('link');
-    linkElement.rel = 'stylesheet';
-    linkElement.href = `https://fonts.googleapis.com/css2?family=${fontFamilies.join('&family=')}&display=swap`;
+		const linkElement = document.createElement('link');
+		linkElement.rel = 'stylesheet';
+		linkElement.href = `https://fonts.googleapis.com/css2?family=${fontFamilies.join('&family=')}&display=swap`;
 
-    document.head.appendChild(linkElement);
+		document.head.appendChild(linkElement);
 	}
 
 	function displayFonts() {
@@ -63,10 +63,28 @@
 				document.getElementById('fontList').innerHTML = data;
 				// displayFonts();
 				fetchAndPopulateFonts();
+
+				const successDiv = document.querySelector('.font-success');
+				successDiv.innerHTML = 'Font uploaded successfully!';
+				successDiv.style.display = 'block'; 
+
+				// Hide message
+				setTimeout(() => {
+					successDiv.style.display = 'none';
+				}, 3000);
+
 			})
 			.catch(error => {
 				console.error('There was a problem with the fetch operation:', error);
-				alert('An error occurred while uploading the font.');
+				const errorDiv = document.querySelector('.font-error');
+				errorDiv.innerHTML = 'An error occurred while uploading the font.';
+				errorDiv.style.display = 'block'; 
+
+				// Hide message
+				setTimeout(() => {
+					errorDiv.style.display = 'none';
+				}, 5000); 
+				
 			});
 	}
 
@@ -82,5 +100,14 @@
 			.then(response => response.text())
 			.then(data => {
 				document.getElementById('fontList').innerHTML = data;
+
+				const successDiv = document.querySelector('.font-success');
+				successDiv.innerHTML = 'Font deleted successfully!';
+				successDiv.style.display = 'block'; 
+
+				// Hide message
+				setTimeout(() => {
+					successDiv.style.display = 'none';
+				}, 3000);
 			});
 	}

@@ -146,3 +146,29 @@ label[for="fontFile"] {
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px !important;
 
 }
+
+.font-success, .font-error, .font-group-success {
+    display: none; 
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 10px 0;
+    transition: opacity 0.5s ease, transform 0.5s ease; 
+    /* opacity: 0;  */
+    transform: translateY(-10px); 
+}
+
+.font-success, .font-group-success {
+    background-color: #d4edda; 
+    color: #155724; 
+}
+
+.font-error, .form-warning, .font-group-error {
+    background-color: #f8d7da; 
+    color: #721c24; 
+}
+
+.font-success.show, .font-error.show {
+    display: block; 
+    opacity: 1;
+    transform: translateY(0); 
+}
