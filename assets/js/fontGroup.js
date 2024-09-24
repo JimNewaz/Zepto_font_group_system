@@ -72,14 +72,20 @@ function displayAllFontGroups() {
     fetch('./functions/FontsController.php?action=displayAllFontGroups')
         .then(response => response.text())
         .then(data => {
-            document.getElementById('fontGroupList').innerHTML = data;
+            // document.getElementById('fontGroupList').innerHTML = data;
 
-            $('#fontGroupTable').DataTable().destroy();
-            $('#fontGroupTable').DataTable({
-                "order": [[0, "desc"]]
-            });
+            const fontGroupList = document.getElementById('fontGroupList');
             
-            // $('#fontGroupTable').DataTable().ajax.reload();
+
+            if ($.fn.DataTable.isDataTable('#fontGroupTable')) {
+                $('#fontGroupTable').DataTable().clear().destroy();
+            }
+
+            fontGroupList.innerHTML = data;
+
+            $('#fontGroupTable').DataTable({
+                "order": [[0, "desc"]],                
+            });
 
             document.querySelectorAll('.edit-font-group').forEach(button => {
                 button.addEventListener('click', function () {

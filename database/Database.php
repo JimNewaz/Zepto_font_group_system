@@ -4,7 +4,7 @@
         private $host = 'localhost';    
         private $dbName = 'font-group';
         private $username = 'root';
-        private $password = 'password';
+        private $password = '';
 
         private $con; 
 
