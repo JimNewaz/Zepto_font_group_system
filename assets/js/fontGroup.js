@@ -51,38 +51,6 @@ function addFontRow() {
     fetchAndPopulateFonts(); 
 }
 
-// Update
-// function saveChanges(groupId) {
-//     const groupName = document.getElementById('editgroupName').value;
-//     const selectedFonts = Array.from(document.getElementById('groupFonts').selectedOptions)
-//         .map(option => option.value);
-
-//     const data = {
-//         group_id: groupId,
-//         group_name: groupName,
-//         fonts: selectedFonts
-//     };
-
-//     fetch('./functions/FontsController.php?action=updateFontGroup', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(data)
-//     })
-//     .then(response => response.json())
-//     .then(result => {
-//         if (result.success) {
-//             alert('Font group updated successfully!');
-//             displayAllFontGroups(); 
-//         } else {
-//             alert('Failed to update font group.');
-//         }
-//     })
-//     .catch(error => console.error('Error updating font group:', error));
-// }
-
-
 // Delete
 function deleteFontGroup(groupId) {
     fetch('./functions/FontsController.php', {
